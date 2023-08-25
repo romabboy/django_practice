@@ -4,12 +4,13 @@ from django.urls import reverse
 
 class Women(models.Model):
     title = models.CharField(max_length=255, verbose_name='_title_')
+    slug = models.SlugField(max_length=255,unique=True,verbose_name='URL')
     content = models.TextField(blank=True)
     photo = models.ImageField(upload_to='photos/%Y/%m/%d')
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(default=True)
-    cat = models.ForeignKey('Category', on_delete=models.CASCADE, null=True)
+    cat = models.ForeignKey('Category', on_delete=models.CASCADE)
 
     class Lol:
         ordering = ['title']
@@ -36,10 +37,11 @@ class Women(models.Model):
         return woman
 
     def get_absolute_url(self):
-        return reverse('women:post', kwargs={'post_id': self.pk})
+        return reverse('women:post', kwargs={'post_slug': self.slug})
 
 class Category(models.Model):
     name = models.CharField(max_length=100, verbose_name='category')
+    slug = models.SlugField(max_length=255,unique=True,verbose_name='URL')
 
     class Meta:
         ordering = ['id']
@@ -58,6 +60,6 @@ class Category(models.Model):
 
         return cat
     def get_absolute_url(self):
-        return reverse('women:category', kwargs={'category_id':self.pk})
+        return reverse('women:category', kwargs={'category_slug':self.slug})
 
 
