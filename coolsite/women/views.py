@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpRequest, HttpResponseNotFound, Http404
+
+from women.forms import AddPostForm
 from women.models import *
 
 
@@ -22,7 +24,21 @@ def categories(request:HttpRequest ,cat):
         print(request.GET)
     return HttpResponse(f'Page about categories {cat}')
 
-def addpage(request): pass
+def addpage(request: HttpRequest):
+    if request.POST:
+        form = AddPostForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('women:home')
+
+    else:
+        form = AddPostForm()
+
+    context = {
+        'form': form,
+        'title': 'Add article',
+    }
+    return render(request,'women/addpage.html', context=context)
 def contact(request): pass
 def login(request): pass
 

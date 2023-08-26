@@ -24,6 +24,8 @@ def show_categories(sort=None, cat_selected=0):
     return {'cats': cats, 'cat_selected': cat_selected}
 
 
+
+
 @register.inclusion_tag('women/list_menu.html')
 def get_menu():
     menu = [{'title': 'About site', 'url_name': 'women:about'},

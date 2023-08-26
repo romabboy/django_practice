@@ -17,7 +17,7 @@ class Women(models.Model):
     class Meta:
         verbose_name = 'Famous woman'
         verbose_name_plural = 'Famous women'
-        ordering = ['-title']
+        ordering = ['-pk']
 
     def __str__(self):
         return f'{self.pk} -> {self.title}'
